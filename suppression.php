@@ -12,7 +12,7 @@ if ($id > 0) {
     if (mysqli_stmt_execute($stmt)) {
         header("Location: index.php");
     } else {
-        echo "Erreur lors de la suppression de la tâche : " . mysqli_error($conn);
+        echo "erreur" . mysqli_error($conn);
     }
 
     mysqli_stmt_close($stmt);

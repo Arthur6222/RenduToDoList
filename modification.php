@@ -24,7 +24,7 @@ if ($id > 0) {
             if (mysqli_stmt_execute($stmt)) {
                 header("Location: index.php");
             } else {
-                echo "Erreur lors de la mise à jour de la tâche : " . mysqli_error($conn);
+                echo "erreur" . mysqli_error($conn);
             }
 
             mysqli_stmt_close($stmt);
@@ -43,7 +43,7 @@ if ($id > 0) {
     <h1>Modifier une tâche</h1>
     <form method="post">
         <label for="titre">Titre:</label>
-        <input type="text" name="titre" value="<?= $row['titre'] ?>" required>
+        <input type="text" name="titre" value="<?= $row['titre'] ?>" autofocus required>
         <label for="description">Description:</label>
         <textarea name="description" required><?= $row['description'] ?></textarea>
         <button type="submit">Modifier</button>

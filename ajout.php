@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (mysqli_stmt_execute($stmt)) {
         header("Location: index.php");
     } else {
-        echo "Erreur lors de l'ajout de la tâche : " . mysqli_error($conn);
+        echo "erreur" . mysqli_error($conn);
     }
 
     mysqli_stmt_close($stmt);
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h1>Ajouter une tâche</h1>
     <form method="post">
         <label for="titre">Titre:</label>
-        <input type="text" name="titre" required>
+        <input type="text" name="titre" autofocus required>
         <label for="description">Description:</label>
         <textarea name="description" required></textarea>
         <button type="submit">Ajouter</button>
