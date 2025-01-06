@@ -1,41 +1,40 @@
 <?php
-    if(isset($_POST['send'])){
-        if(isset($_POST['titre']) && 
-            isset($_POST['description']) && 
-            $_POST['titre'] != "" && 
-            $_POST['titre'] != ""
-            ){
-            include_once "connect.php";
-            extract($_POST);
+include_once "connect.php";
 
-            $sql = "INSERT INTO taches (titre, description) VALUES ('$titre', '$description')";
-            if (mysqli_query($conn, $sql)){
-                header("location : index.php");
-            } else {
-                header("location : ajout.php");
-            }
-        } else {
-            header("location : ajout.php");
-        }
-    
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $titre = $_POST['titre'];
+    $description = $_POST['description'];
+
+    $sql = "INSERT INTO taches (titre, description) VALUES (?, ?)";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "ss", $titre, $description);
+
+    if (mysqli_stmt_execute($stmt)) {
+        header("Location: index.php");
+    } else {
+        echo "Erreur lors de l'ajout de la tâche : " . mysqli_error($conn);
     }
+
+    mysqli_stmt_close($stmt);
+}
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouter une tâche</title> 
-    <link rel="stylesheet" href="todo.css"> 
+    <link rel="stylesheet" href="todo.css">
 </head>
 <body>
-    <form action="" method="post"> 
-        <h1><strong>Ajouter une tâche</strong></h1> 
-        <input type="text" name="titre" placeholder="Titre de la tâche" autofocus required> 
-        <input type="text" name="description" placeholder="Description de la tâche" required> 
-        <input type="submit" value="Ajouter" name="send">
-        <a class="link back" href="index.php">Voir les tâches</a>
+    <h1>Ajouter une tâche</h1>
+    <form method="post">
+        <label for="titre">Titre:</label>
+        <input type="text" name="titre" required>
+        <label for="description">Description:</label>
+        <textarea name="description" required></textarea>
+        <button type="submit">Ajouter</button>
     </form>
 </body>
 </html>
